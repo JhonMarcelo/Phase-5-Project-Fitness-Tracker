@@ -5,6 +5,9 @@
 # Remote library imports
 from flask import request
 from flask_restful import Resource
+from flask_marshmallow import Marshmallow
+
+ma = marshmallow(app)
 
 # Local imports
 from config import app, db, api

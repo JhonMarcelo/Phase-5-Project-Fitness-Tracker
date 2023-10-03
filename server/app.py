@@ -3,8 +3,8 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request
-from flask_restful import Resource
+from flask import request, Flask, make_response
+from flask_restful import Resource, Api
 from flask_marshmallow import Marshmallow
 
 ma = marshmallow(app)
@@ -12,6 +12,7 @@ ma = marshmallow(app)
 # Local imports
 from config import app, db, api
 # Add your model imports
+from models import User, Exercise
 
 
 # Views go here!

@@ -1,7 +1,9 @@
 import React from "react";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+
 import { Switch, Route, NavLink } from "react-router-dom";
 import Home from "./Home";
 import Exercise from "./Exercise";
@@ -12,7 +14,7 @@ function ColorSchemesExample() {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">KMOK</Navbar.Brand>
+          <Navbar.Brand href="/">Fitness Tracker</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to={"/home"}>
               Home
@@ -46,3 +48,5 @@ function ColorSchemesExample() {
     </>
   );
 }
+
+export default ColorSchemesExample;

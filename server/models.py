@@ -1,11 +1,11 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import declarative_base
-
+from config import db, migrate
 
 Base = declarative_base()
 
-from config import db
+
 
 # Models go here!
 user_exercise = db.Table('user_to_exercise',

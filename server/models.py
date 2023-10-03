@@ -5,6 +5,8 @@ from config import db
 
 # Models go here!
 user_exercise = db.Table('user_to_exercise',
+                        #  not sure
+                         db.Model.metadata, 
                             db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                             db.Columm('exercise_id', db.Integer, db.ForeignKey('channel.id'))
                          )
@@ -36,6 +38,23 @@ class Exercise(db.model, SerializerMixin):
     sets = db.Column(db.Integer)
     reps = db.Column(db.Integer)
     weight = db.Column(db.Integer)
+    
+
+    def __repr__(self):
+        return f"<User {self.id},"\
+            + f"id = {self.id}, "\
+            + f"exercise_name = {self.exercise_name}, "\
+            + f"target_muscle = {self.target_muscle}, "\
+            + f"sets = {self.sets}, "\
+            + f"reps = {self.reps}, "\
+            + f"weight = {self.weight}, "\
+            + ">"
+
+class Rating(db.model, SerializerMixin):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key = True)
+    rate = db.Column(db.Integer)
     
 
     def __repr__(self):

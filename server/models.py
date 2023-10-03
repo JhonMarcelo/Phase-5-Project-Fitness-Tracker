@@ -1,14 +1,18 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import declarative_base, relationship
+
+
+Base = declarative_base()
 
 from config import db
 
 # Models go here!
 user_exercise = db.Table('user_to_exercise',
                         #  not sure
-                         db.Model.metadata, 
-                            db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                            db.Columm('exercise_id', db.Integer, db.ForeignKey('channel.id'))
+                         Base.metadata,
+                            db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                            db.Columm('exercise_id', db.Integer, db.ForeignKey('exercises.id'))
                          )
 
 class User(db.model, SerializerMixin):
@@ -18,7 +22,8 @@ class User(db.model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
-    my_exercise = db.relationship('Exercise', secondary=user_exercise, backref = 'exercises')
+    my_exercise = relationship('Exercise', secondary=user_exercise, back_populates='user')
+    rating = relationship("Rating")
 
     def __repr__(self):
         return f"<User {self.id},"\
@@ -30,7 +35,7 @@ class User(db.model, SerializerMixin):
 
 
 class Exercise(db.model, SerializerMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'exercises'
 
     id = db.Column(db.Integer, primary_key = True)
     exercise_name = db.Column(db.String)
@@ -38,6 +43,7 @@ class Exercise(db.model, SerializerMixin):
     sets = db.Column(db.Integer)
     reps = db.Column(db.Integer)
     weight = db.Column(db.Integer)
+    my_user = relationship('User', secondary=user_exercise, back_populates='exercise')
     
 
     def __repr__(self):
@@ -55,6 +61,7 @@ class Rating(db.model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key = True)
     rate = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     
 
     def __repr__(self):

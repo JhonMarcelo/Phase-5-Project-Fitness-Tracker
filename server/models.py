@@ -1,6 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base
 
 
 Base = declarative_base()
@@ -22,8 +22,8 @@ class User(db.model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
-    my_exercise = relationship('Exercise', secondary=user_exercise, back_populates='user')
-    rating = relationship("Rating")
+    my_exercise = db.relationship('Exercise', secondary=user_exercise, back_populates='user')
+    rating = db.relationship("Rating")
 
     def __repr__(self):
         return f"<User {self.id},"\
@@ -43,7 +43,7 @@ class Exercise(db.model, SerializerMixin):
     sets = db.Column(db.Integer)
     reps = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    my_user = relationship('User', secondary=user_exercise, back_populates='exercise')
+    my_user = db.relationship('User', secondary=user_exercise, back_populates='exercise')
     
 
     def __repr__(self):

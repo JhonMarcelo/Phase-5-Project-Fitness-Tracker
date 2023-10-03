@@ -12,10 +12,44 @@ ma = marshmallow(app)
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Exercise
+from models import User, Exercise, Rating
 
 
 # Views go here!
+class UserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+
+    username = ma.auto_field()
+
+singular_user_schema = UserSchema()
+plural_user_schema = UserSchema(many=True)
+
+class Users(Resource):
+    def get(self):
+        users = User.query.all()
+        response = make_response(
+            singular_user_schema.dump(users),
+            200,
+        )
+        return response
+    
+    def post(self):
+        new_user = User(
+            username = request.form['username'],
+            first_name = request.form['first_name'],
+            last_name = request.form['last_name'],
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        response = make_response(
+            singular_user_schema.dump(new_user),
+            201,
+        )
+        return response
+api.add_resource(Users, '/users')
+
 
 @app.route('/')
 def index():

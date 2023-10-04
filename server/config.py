@@ -23,8 +23,10 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 app.app_context().push()
 
-migrate = Migrate(app, db)
 db.init_app(app)
+# added .init_app
+migrate = Migrate(app, db)
+
 
 # Instantiate REST API
 api = Api(app)

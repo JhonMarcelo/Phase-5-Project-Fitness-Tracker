@@ -10,7 +10,7 @@ from flask_marshmallow import Marshmallow
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Exercise, Rating
+from models import User
 
 ma = Marshmallow(app)
 

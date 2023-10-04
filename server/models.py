@@ -76,4 +76,6 @@ class Rating(db.Model, SerializerMixin):
         return f"<Rating {self.id},"\
             + f"id = {self.id}, "\
             + f"rate = {self.rate}, "\
+            + f"user_id = {self.user_id}, "\
+            + f"exercise_id = {self.exercise_id}, "\
             + ">"

@@ -30,13 +30,13 @@ class User(db.Model, SerializerMixin):
 
 
 
-    # def __repr__(self):
-    #     return f"<User {self.id},"\
-    #         + f"id = {self.id}, "\
-    #         + f"username = {self.username}, "\
-    #         + f"first_name = {self.first_name}, "\
-    #         + f"last_name = {self.last_name}, "\
-    #         + ">"
+    def __repr__(self):
+        return f"<User {self.id},"\
+            + f"id = {self.id}, "\
+            + f"username = {self.username}, "\
+            + f"first_name = {self.first_name}, "\
+            + f"last_name = {self.last_name}, "\
+            + ">"
 
 
 class Exercise(db.Model, SerializerMixin):
@@ -49,16 +49,16 @@ class Exercise(db.Model, SerializerMixin):
     reps = db.Column(db.Integer)
     weight = db.Column(db.Integer)
 
-#     users = db.relationship('UserExercise', back_populates='exercise')
+    exercise_rate = db.relationship('Rating', backref = 'exercise_rate', uselist = False)
 
-#     def __repr__(self):
-#         return f"id = {self.id}, "\
-#             + f"exercise_name = {self.exercise_name}, "\
-#             + f"target_muscle = {self.target_muscle}, "\
-#             + f"sets = {self.sets}, "\
-#             + f"reps = {self.reps}, "\
-#             + f"weight = {self.weight}, "\
-#             + ">"
+    def __repr__(self):
+        return f"id = {self.id}, "\
+            + f"exercise_name = {self.exercise_name}, "\
+            + f"target_muscle = {self.target_muscle}, "\
+            + f"sets = {self.sets}, "\
+            + f"reps = {self.reps}, "\
+            + f"weight = {self.weight}, "\
+            + ">"
 
 class Rating(db.Model, SerializerMixin):
     __tablename__ = 'ratings'
@@ -67,11 +67,13 @@ class Rating(db.Model, SerializerMixin):
     rate = db.Column(db.Integer)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    exercise_id = db.Column(db.Integer, db.ForeignKey("exercises.id"))
+
  
     
 
-    # def __repr__(self):
-    #     return f"<Rating {self.id},"\
-    #         + f"id = {self.id}, "\
-    #         + f"rate = {self.rate}, "\
-    #         + ">"
+    def __repr__(self):
+        return f"<Rating {self.id},"\
+            + f"id = {self.id}, "\
+            + f"rate = {self.rate}, "\
+            + ">"

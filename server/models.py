@@ -2,24 +2,19 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import declarative_base
 from config import db
-from typing import List
+
 
 Base = declarative_base()
 
 
 # Models go here!
-# user_exercise = db.Table("user_exercise",
-#                     Base.metadata,
-#                     db.Column("user_id",db.Integer, db.ForeignKey("user.id")),
-#                     db.Column("exercise_id",db.Integer, db.ForeignKey("exercise.id"))  
-# )
-# class UserExercise (db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column("user_id",db.Integer, db.ForeignKey("user.id"))
-#     exercise_id = db.Column("exercise_id",db.Integer, db.ForeignKey("exercise.id"))
 
-#     user = db.relationship('User', back_populates='exercises')
-#     exercise = db.relationship('Exercise', back_populates='users')
+user_exercise = db.Table("user_exercise",
+                    # Base.metadata,
+    db.Column("user_id",db.Integer, db.ForeignKey("users.id")),
+    db.Column("exercise_id",db.Integer, db.ForeignKey("exercises.id"))  
+)
+
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -30,7 +25,8 @@ class User(db.Model, SerializerMixin):
     last_name = db.Column(db.String)
     
     ratings = db.relationship("Rating", backref="user")
-    # exercises = db.relationship('UserExercise', back_populates='user')
+
+    my_exercise = db.relationship("Exercise", secondary=user_exercise, backref='my_exercises')
 
 
 

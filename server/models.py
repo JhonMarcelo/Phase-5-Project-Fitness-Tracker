@@ -43,15 +43,15 @@ class User(db.Model, SerializerMixin):
     #         + ">"
 
 
-# class Exercise(db.Model, SerializerMixin):
-#     __tablename__ = 'exercises'
+class Exercise(db.Model, SerializerMixin):
+    __tablename__ = 'exercises'
 
-#     id = db.Column(db.Integer, primary_key = True)
-#     exercise_name = db.Column(db.String)
-#     target_muscle = db.Column(db.String)
-#     sets = db.Column(db.Integer)
-#     reps = db.Column(db.Integer)
-#     weight = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key = True)
+    exercise_name = db.Column(db.String)
+    target_muscle = db.Column(db.String)
+    sets = db.Column(db.Integer)
+    reps = db.Column(db.Integer)
+    weight = db.Column(db.Integer)
 
 #     users = db.relationship('UserExercise', back_populates='exercise')
 
@@ -64,11 +64,11 @@ class User(db.Model, SerializerMixin):
 #             + f"weight = {self.weight}, "\
 #             + ">"
 
-# class Rating(db.Model, SerializerMixin):
-#     __tablename__ = 'ratings'
+class Rating(db.Model, SerializerMixin):
+    __tablename__ = 'ratings'
 
-#     id = db.Column(db.Integer, primary_key = True)
-#     rate = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key = True)
+    rate = db.Column(db.Integer)
 
     # user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
  

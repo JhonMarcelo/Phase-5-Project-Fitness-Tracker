@@ -22,6 +22,8 @@ class UserSchema(ma.SQLAlchemySchema):
         model = User
 
     username = ma.auto_field()
+    first_name = ma.auto_field()
+    last_name = ma.auto_field()
 
 singular_user_schema = UserSchema()
 plural_user_schema = UserSchema(many=True)
@@ -36,21 +38,37 @@ class Users(Resource):
         return response
        
     
-    # def post(self):
-    #     new_user = User(
-    #         username = request.form['username'],
-    #         first_name = request.form['first_name'],
-    #         last_name = request.form['last_name'],
-    #     )
-    #     db.session.add(new_user)
-    #     db.session.commit()
+    def post(self):
+        new_user = User(
+            username = request.form['username'],
+            first_name = request.form['first_name'],
+            last_name = request.form['last_name'],
+        )
+        db.session.add(new_user)
+        db.session.commit()
 
-    #     response = make_response(
-    #         singular_user_schema.dump(new_user),
-    #         201,
-    #     )
-    #     return response
+        response = make_response(
+            singular_user_schema.dump(new_user),
+            201,
+        )
+        return response
+    
 api.add_resource(Users, '/users')
+
+
+class getUserByID(Resource):
+    def get(self, id):
+        theUser = User.query.filter_by(id=id).first()
+
+        response = make_response(
+            singular_user_schema.dump(theUser),
+            200,
+        )
+        return response
+
+
+api.add_resource(getUserByID, '/users/<int:id>')
+
 
 
 @app.route('/')

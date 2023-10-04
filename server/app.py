@@ -13,50 +13,51 @@ from config import app, db, api
 from models import User
 
 ma = Marshmallow(app)
-
+api = Api(app)
 
 
 # # Views go here!
-# class UserSchema(ma.SQLAlchemySchema):
-#     class Meta:
-#         model = User
+class UserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
 
-#     username = ma.auto_field()
+    username = ma.auto_field()
 
-# singular_user_schema = UserSchema()
-# plural_user_schema = UserSchema(many=True)
+singular_user_schema = UserSchema()
+plural_user_schema = UserSchema(many=True)
 
-# class Users(Resource):
-#     def get(self):
-#         users = User.query.all()
-#         response = make_response(
-#             singular_user_schema.dump(users),
-#             200,
-#         )
-#         return response
+class Users(Resource):
+    def get(self):
+        users = User.query.all()
+        response = make_response(
+            plural_user_schema.dump(users),
+            200,
+        )
+        return response
+       
     
-#     def post(self):
-#         new_user = User(
-#             username = request.form['username'],
-#             first_name = request.form['first_name'],
-#             last_name = request.form['last_name'],
-#         )
-#         db.session.add(new_user)
-#         db.session.commit()
+    # def post(self):
+    #     new_user = User(
+    #         username = request.form['username'],
+    #         first_name = request.form['first_name'],
+    #         last_name = request.form['last_name'],
+    #     )
+    #     db.session.add(new_user)
+    #     db.session.commit()
 
-#         response = make_response(
-#             singular_user_schema.dump(new_user),
-#             201,
-#         )
-#         return response
-# api.add_resource(Users, '/users')
-
-
-# @app.route('/')
-# def index():
-#     return '<h1>Project Server</h1>'
+    #     response = make_response(
+    #         singular_user_schema.dump(new_user),
+    #         201,
+    #     )
+    #     return response
+api.add_resource(Users, '/users')
 
 
-# if __name__ == '__main__':
-#     app.run(port=5555, debug=True)
+@app.route('/')
+def index():
+    return '<h1>Project Server</h1>'
+
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
 

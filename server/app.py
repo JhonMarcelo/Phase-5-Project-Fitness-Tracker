@@ -70,19 +70,19 @@ class Users(Resource):
        
     def post(self):
         
-        # validate_user = User(
+        # new_user = User(
         #     username = request.form['username'],
         #     first_name = request.form['first_name'],
         #     last_name = request.form['last_name'],
         # )
 
-        validate_user = singular_exercise_schema.load(request.json)
+        new_user = singular_user_schema.load(request.json)
 
-        # db.session.add(new_user)
-        # db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
         response = make_response(
-            validate_user,
+            singular_user_schema.dump(new_user),
             201,
         )
         return response

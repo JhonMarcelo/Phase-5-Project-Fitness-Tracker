@@ -10,7 +10,7 @@ from flask_marshmallow import Marshmallow
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Exercise
+from models import User, Exercise, Rating
 
 ma = Marshmallow(app)
 api = Api(app)
@@ -42,6 +42,17 @@ class ExerciseSchema(ma.SQLAlchemySchema):
 singular_exercise_schema = ExerciseSchema()
 plural_exercise_schema = ExerciseSchema(many=True)
 
+
+class RatingSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Rating
+
+    rate = ma.auto_field()
+    user_id = ma.auto_field()
+    exercise_id = ma.auto_field()
+
+singular_rating_schema = RatingSchema()
+plural_rating_schema = RatingSchema(many=True)
 
 class Users(Resource):
     def get(self):

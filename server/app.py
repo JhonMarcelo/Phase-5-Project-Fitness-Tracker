@@ -70,12 +70,6 @@ class Users(Resource):
        
     def post(self):
         
-        # new_user = User(
-        #     username = request.form['username'],
-        #     first_name = request.form['first_name'],
-        #     last_name = request.form['last_name'],
-        # )
-
         new_user = singular_user_schema.load(request.json)
 
         db.session.add(new_user)
@@ -88,10 +82,6 @@ class Users(Resource):
         return response
     
 api.add_resource(Users, '/users')
-    ###### THIS WORKS ######
-    # def post(self):
-    #     new_user = request.get_json()
-    #     return
 
 
 class getUserByID(Resource):

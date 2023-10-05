@@ -20,6 +20,9 @@ api = Api(app)
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:
         model = User
+        include_relationship = True
+        load_instance = True
+        # If u wanna exclude ID : exclude = ["id"]
 
     username = ma.auto_field()
     first_name = ma.auto_field()
@@ -35,7 +38,7 @@ class ExerciseSchema(ma.SQLAlchemySchema):
     
     exercise_name = ma.auto_field()
     target_muscle = ma.auto_field()
-    sets = ma.auto_field()
+    sets = ma.auto_field() 
     reps = ma.auto_field()
     weight = ma.auto_field()
 
@@ -54,6 +57,8 @@ class RatingSchema(ma.SQLAlchemySchema):
 singular_rating_schema = RatingSchema()
 plural_rating_schema = RatingSchema(many=True)
 
+#################################################
+
 class Users(Resource):
     def get(self):
         users = User.query.all()
@@ -65,20 +70,24 @@ class Users(Resource):
        
     def post(self):
         
-        new_user = singular_user_schema( User(
-            username = request.form['username'],
-            first_name = request.form['first_name'],
-            last_name = request.form['last_name'],
-        ))
+        # validate_user = User(
+        #     username = request.form['username'],
+        #     first_name = request.form['first_name'],
+        #     last_name = request.form['last_name'],
+        # )
+
+        validate_user = singular_exercise_schema.load(request.json)
+
         # db.session.add(new_user)
         # db.session.commit()
 
         response = make_response(
-            new_user,
+            validate_user,
             201,
         )
         return response
     
+api.add_resource(Users, '/users')
     ###### THIS WORKS ######
     # def post(self):
     #     new_user = request.get_json()
@@ -99,6 +108,21 @@ class getUserByID(Resource):
 api.add_resource(getUserByID, '/users/<int:id>')
 
 
+class getUserExercise(Resource):
+    def get(self,id):
+        theUser = User.query.filter_by(id=id).first()
+        
+        userExercise = theUser.my_exercise
+
+        response = make_response(
+            plural_exercise_schema.dump(userExercise),
+            200,
+        )
+        return response
+    
+api.add_resource(getUserExercise, '/exercise/<int:id>')
+
+# import ipdb; ipdb.set_trace()
 
 @app.route('/')
 def index():

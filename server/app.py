@@ -10,7 +10,7 @@ from flask_marshmallow import Marshmallow
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User
+from models import User, Exercise
 
 ma = Marshmallow(app)
 api = Api(app)
@@ -28,6 +28,21 @@ class UserSchema(ma.SQLAlchemySchema):
 singular_user_schema = UserSchema()
 plural_user_schema = UserSchema(many=True)
 
+
+class ExerciseSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Exercise
+    
+    exercise_name = ma.auto_field()
+    target_muscle = ma.auto_field()
+    sets = ma.auto_field()
+    reps = ma.auto_field()
+    weight = ma.auto_field()
+
+singular_exercise_schema = ExerciseSchema()
+plural_exercise_schema = ExerciseSchema(many=True)
+
+
 class Users(Resource):
     def get(self):
         users = User.query.all()
@@ -37,23 +52,26 @@ class Users(Resource):
         )
         return response
        
-    
     def post(self):
-        new_user = User(
+        
+        new_user = singular_user_schema( User(
             username = request.form['username'],
             first_name = request.form['first_name'],
             last_name = request.form['last_name'],
-        )
-        db.session.add(new_user)
-        db.session.commit()
+        ))
+        # db.session.add(new_user)
+        # db.session.commit()
 
         response = make_response(
-            singular_user_schema.dump(new_user),
+            new_user,
             201,
         )
         return response
     
-api.add_resource(Users, '/users')
+    ###### THIS WORKS ######
+    # def post(self):
+    #     new_user = request.get_json()
+    #     return
 
 
 class getUserByID(Resource):

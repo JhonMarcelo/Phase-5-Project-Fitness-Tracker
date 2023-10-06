@@ -51,7 +51,8 @@ class Exercise(db.Model, SerializerMixin):
     weight = db.Column(db.Integer)
 
     exercise_rate = db.relationship('Rating', backref = 'exercise_rate', uselist = False)
-
+    exercise_comment = db.relationship('Comment', backref = 'exercise_comment', uselist = False)
+    
     def __repr__(self):
         return f"id = {self.id}, "\
             + f"exercise_name = {self.exercise_name}, "\
@@ -66,7 +67,7 @@ class Comment(db.Model, SerializerMixin):
     comment = db.Column(db.String)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    
+    exercise_id = db.Column(db.Integer, db.ForeignKey("exercises.id"))
     
 
 

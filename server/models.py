@@ -25,7 +25,7 @@ class User(db.Model, SerializerMixin):
     last_name = db.Column(db.String)
     
     ratings = db.relationship("Rating", backref="ratings")
-    # comments = db.relationship("Comment", backref="comments")
+    comments = db.relationship("Comment", backref="comments")
 
     my_exercise = db.relationship("Exercise", secondary=user_exercise, backref='my_exercises')
 
@@ -65,7 +65,8 @@ class Comment(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     comment = db.Column(db.String)
 
-    # user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    
     
 
 

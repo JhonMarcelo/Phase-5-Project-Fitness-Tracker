@@ -199,24 +199,24 @@ api.add_resource(deleteExerciseFromUser, '/exercise/<int:user_id>/<int:exercise_
 
 #######################RATING######################
 
-class getExerciseRateByUser(Resource):
-    def get(self,id):
-        theUser = User.query.filter_by(id=id).first()
+class ExerciseRateByUser(Resource):
+
+    # def get(self,id):
+    #     theUser = User.query.filter_by(id=id).first()
         
-        userExercise = theUser.my_exercise
+    #     userExercise = theUser.my_exercise
 
 
-        response = make_response(
-            singular_rating_schema.dump(userExercise),
-            200,
-        )
-        return response
+    #     response = make_response(
+    #         singular_rating_schema.dump(userExercise),
+    #         200,
+    #     )
+    #     return response
     
 #     #Adding new exercise rate
     def post(self,id):
         
         user = User.query.filter_by(id=id).first()
-   
         fetched_data = singular_rating_schema.load(request.json)
 
         db.session.add(fetched_data)
@@ -228,12 +228,23 @@ class getExerciseRateByUser(Resource):
         )
         return response
 
-
-
-
-
-api.add_resource(getExerciseRateByUser, '/exercise/rating/<int:id>')
+api.add_resource(ExerciseRateByUser, '/exercise/rating/<int:id>')
 # # import ipdb; ipdb.set_trace()
+
+class ExerciseCommentByUser(Resource):
+    def post(self,id):
+        user = User.query.filter_by(id=id).first()
+        fetched_data = singular_comment_schema.load(request.json)
+
+        db.session.add(fetched_data)
+        db.session.commit()
+
+        response = make_response(
+            singular_comment_schema.dump(fetched_data),
+            201,
+        )
+        return response
+api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')
 
 @app.route('/')
 def index():

@@ -35,6 +35,8 @@ plural_user_schema = UserSchema(many=True)
 class ExerciseSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Exercise
+        include_relationship = True
+        load_instance = True
     
     exercise_name = ma.auto_field()
     target_muscle = ma.auto_field()
@@ -49,6 +51,8 @@ plural_exercise_schema = ExerciseSchema(many=True)
 class RatingSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Rating
+        include_relationship = True
+        load_instance = True
 
     rate = ma.auto_field()
     user_id = ma.auto_field()
@@ -109,6 +113,27 @@ class getUserExercise(Resource):
             200,
         )
         return response
+    
+    #Adding new user exercise
+    def post(self,id):
+        
+        theUser = User.query.filter_by(id=id).first()
+        fetched_exercise = singular_exercise_schema.load(request.json)
+        
+        
+        db.session.add(fetched_exercise)
+        db.session.commit()
+
+        theUser.my_exercise.append(fetched_exercise)
+        db.session.commit()
+
+        response = make_response(
+            singular_exercise_schema.dump(fetched_exercise),
+            201,
+        )
+        return response
+
+    
     
 api.add_resource(getUserExercise, '/exercise/<int:id>')
 

@@ -146,26 +146,8 @@ class getUserExercise(Resource):
         )
         return response
     
-
-api.add_resource(getUserExercise, '/exercise/<int:id>')
-
-class deleteExerciseFromUser(Resource):
-
-    def delete(self,user_id,exercise_id):
-        user = User.query.filter_by(id=user_id).first()
-        exercise = Exercise.query.filter_by(id=exercise_id).first()
-
-        user.my_exercise.remove(exercise)
-        db.session.commit()
-
-        response = make_response(
-            singular_exercise_schema.dump(exercise),
-            200,
-        )
-        return response
-    
-    def patch(self,user_id,exercise_id):
-        user = User.query.filter_by(id=user_id).first()
+    def patch(self,id,):
+        user = User.query.filter_by(id=id).first()
         
 
         fetched_exercise = singular_exercise_schema.load(request.json)
@@ -184,13 +166,30 @@ class deleteExerciseFromUser(Resource):
                         db.session.commit()
                         
 
-
-
         response = make_response(
             singular_exercise_schema.dump(fetched_exercise),
             200,
         )
         return response
+    
+
+api.add_resource(getUserExercise, '/exercise/<int:id>')
+
+class deleteExerciseFromUser(Resource):
+
+    def delete(self,user_id,exercise_id):
+        user = User.query.filter_by(id=user_id).first()
+        exercise = Exercise.query.filter_by(id=exercise_id).first()
+
+        user.my_exercise.remove(exercise)
+        db.session.commit()
+
+        response = make_response(
+            singular_exercise_schema.dump(exercise),
+            200,
+        )
+        return response
+    
     
 
 api.add_resource(deleteExerciseFromUser, '/exercise/<int:user_id>/<int:exercise_id>')    

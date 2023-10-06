@@ -157,12 +157,41 @@ class deleteExerciseFromUser(Resource):
 
         user.my_exercise.remove(exercise)
         db.session.commit()
-        
+
         response = make_response(
             singular_exercise_schema.dump(exercise),
             200,
         )
         return response
+    
+    def patch(self,user_id,exercise_id):
+        user = User.query.filter_by(id=user_id).first()
+        
+
+        fetched_exercise = singular_exercise_schema.load(request.json)
+
+        
+        for ex in user.my_exercise:
+                    if ex.exercise_name == fetched_exercise.exercise_name:
+                        user.my_exercise.remove(ex)
+                        
+                        deletePreviousRecord = Exercise.query.filter_by(id=ex.id).first()
+                        db.session.delete(deletePreviousRecord)
+                        
+                        db.session.commit()
+
+                        user.my_exercise.append(fetched_exercise)
+                        db.session.commit()
+                        
+
+
+
+        response = make_response(
+            singular_exercise_schema.dump(fetched_exercise),
+            200,
+        )
+        return response
+    
 
 api.add_resource(deleteExerciseFromUser, '/exercise/<int:user_id>/<int:exercise_id>')    
     

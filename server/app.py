@@ -145,7 +145,7 @@ class getUserExercise(Resource):
             201,
         )
         return response
-    
+    #Updating exercise reps/sets/weight
     def patch(self,id,):
         user = User.query.filter_by(id=id).first()
         
@@ -213,22 +213,22 @@ class getExerciseRateByUser(Resource):
 #     #Adding new exercise rate
     def post(self,id):
         
-        theUser = User.query.filter_by(id=id).first()
+        user = User.query.filter_by(id=id).first()
    
-        fetched_exercise = singular_exercise_schema.load(request.json)
-        
-        
-#         db.session.add(fetched_exercise)
-#         db.session.commit()
+        fetched_data = singular_rating_schema.load(request.json)
 
-#         theUser.my_exercise.append(fetched_exercise)
-#         db.session.commit()
+        db.session.add(fetched_data)
+        db.session.commit()
 
-#         response = make_response(
-#             singular_exercise_schema.dump(fetched_exercise),
-#             201,
-#         )
-#         return response
+        response = make_response(
+            singular_rating_schema.dump(fetched_data),
+            201,
+        )
+        return response
+
+
+
+
 
 api.add_resource(getExerciseRateByUser, '/exercise/rating/<int:id>')
 # # import ipdb; ipdb.set_trace()

@@ -27,6 +27,8 @@ class UserSchema(ma.SQLAlchemySchema):
     username = ma.auto_field()
     first_name = ma.auto_field()
     last_name = ma.auto_field()
+    _password_hash = ma.auto_field()
+
 
 singular_user_schema = UserSchema()
 plural_user_schema = UserSchema(many=True)

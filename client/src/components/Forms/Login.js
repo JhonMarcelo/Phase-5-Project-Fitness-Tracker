@@ -29,7 +29,7 @@ function Login({ onLogin }) {
       <Form.Label htmlFor="inputPassword5">Username</Form.Label>
       <Form.Control
         type="text"
-        id="inputPassword5"
+        id="usernameLogin"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         aria-describedby="passwordHelpBlock"
@@ -47,7 +47,9 @@ function Login({ onLogin }) {
         and must not contain spaces, special characters, or emoji.
       </Form.Text>
       <br></br>
-      <Button variant="primary">Log in</Button>{" "}
+      <Button type="submit" variant="primary">
+        Log in
+      </Button>{" "}
     </form>
   );
 }

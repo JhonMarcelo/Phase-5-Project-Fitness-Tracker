@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function Signup(onLogin) {
+function Signup({ onLogin }) {
   const [username, setUsername] = useState("");
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
@@ -11,16 +11,16 @@ function Signup(onLogin) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/signup", {
+    fetch("/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
-        first_name,
-        last_name,
-        password,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        password: password,
       }),
     }).then((r) => {
       if (r.ok) {
@@ -35,24 +35,24 @@ function Signup(onLogin) {
       <Form.Label htmlFor="inputPassword5">Username</Form.Label>
       <Form.Control
         type="text"
-        id="inputPassword5"
+        id="username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         aria-describedby="passwordHelpBlock"
       />
-      <Form.Label htmlFor="inputPassword5">First Namel</Form.Label>
+      <Form.Label htmlFor="inputPassword5">First Name</Form.Label>
       <Form.Control
         type="text"
-        id="inputPassword5"
-        value={username}
+        id="fname"
+        value={first_name}
         onChange={(e) => setFirst_name(e.target.value)}
         aria-describedby="passwordHelpBlock"
       />
       <Form.Label htmlFor="inputPassword5">Last Name</Form.Label>
       <Form.Control
         type="text"
-        id="inputPassword5"
-        value={username}
+        id="lname"
+        value={last_name}
         onChange={(e) => setLast_name(e.target.value)}
         aria-describedby="passwordHelpBlock"
       />
@@ -69,7 +69,9 @@ function Signup(onLogin) {
         and must not contain spaces, special characters, or emoji.
       </Form.Text>
       <br></br>
-      <Button variant="primary">Sign up</Button>{" "}
+      <Button type="submit" variant="primary">
+        Sign up
+      </Button>{" "}
     </form>
   );
 }

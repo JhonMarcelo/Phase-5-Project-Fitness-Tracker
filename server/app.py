@@ -108,7 +108,7 @@ class Users(Resource):
         )
         return response
     
-api.add_resource(Users, '/users')
+
 
 
 class getUserByID(Resource):
@@ -131,13 +131,6 @@ class getUserByID(Resource):
             200,
 
         )
-
-        
-
-
-
-
-api.add_resource(getUserByID, '/users/<int:id>')
 
 ####################EXERCISE######################
 class getUserExercise(Resource):
@@ -198,7 +191,7 @@ class getUserExercise(Resource):
         return response
     
 
-api.add_resource(getUserExercise, '/exercise/<int:id>')
+
 
 class deleteExerciseFromUser(Resource):
 
@@ -215,11 +208,6 @@ class deleteExerciseFromUser(Resource):
         )
         return response
     
-    
-
-api.add_resource(deleteExerciseFromUser, '/exercise/<int:user_id>/<int:exercise_id>')    
-    
-
 #######################RATING######################
 
 class ExerciseRateByUser(Resource):
@@ -251,7 +239,6 @@ class ExerciseRateByUser(Resource):
         )
         return response
 
-api.add_resource(ExerciseRateByUser, '/exercise/rating/<int:id>')
 # # import ipdb; ipdb.set_trace()
 
 class ExerciseCommentByUser(Resource):
@@ -267,24 +254,36 @@ class ExerciseCommentByUser(Resource):
             201,
         )
         return response
-api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')
+
 
 class Login(Resource):
     def post(self):
-        data = singular_exercise_schema.load(request.json)
-        print(f'{data}')
-        username = data.get('username')
-        password = data.get('password')
+        new_user = singular_user_schema.load(request.json)
+        print(f'{new_user.password}')
 
-        user = User.query.filter_by(username=username).first()
-        #and user.authenticate(password):
-        if user:
+        user = User.query.filter_by(username=new_user.username).first()
+    
+        if user and user.authenticate(new_user.password):
             session['user_id'] = user.id
             return make_response(user.to_dict(), 200)
         else:
             return make_response({}, 401)
+    
+# class CheckSession(Resource):
+#     def get(self):
+#         user_id = session['user_id']
+#         if user_id:
+#             user = User.query.filter(User.id == user_id).first()
+#             return
+
 
 api.add_resource(Login, '/login')
+api.add_resource(Users, '/users')
+api.add_resource(getUserByID, '/users/<int:id>')
+api.add_resource(getUserExercise, '/exercise/<int:id>')
+api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')
+api.add_resource(ExerciseRateByUser, '/exercise/rating/<int:id>')
+api.add_resource(deleteExerciseFromUser, '/exercise/<int:user_id>/<int:exercise_id>')    
 
 # @app.route('/login', methods=["POST"])
 # def login():

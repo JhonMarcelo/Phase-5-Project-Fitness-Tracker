@@ -1,4 +1,4 @@
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; //NEED THIS TO USE BOOTSRAP CSS
@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   // const [data, setData] = useState({});
-
+  const [user, setUser] = useState(null);
   // useEffect(() => {
   //   console.log(data);
   // }, [data]);
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <Authentication onLogin={setUser} />
     </div>
   );
 }

@@ -6,19 +6,21 @@ import Authentication from "./components/Authentication";
 import Navbar from "./components/Navbar";
 
 function App() {
-  // const [data, setData] = useState({});
   const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
-  // fetch("/exercise/1")
-  //   .then((r) => r.json())
-  //   .then((data) => setData(data));
+  useEffect(() => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+  if (!user) return <Authentication onLogin={setUser} />;
 
   return (
     <div className="App">
-      <Authentication onLogin={setUser} />
+      <Navbar onLogin={setUser} />
     </div>
   );
 }

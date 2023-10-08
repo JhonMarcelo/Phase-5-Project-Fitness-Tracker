@@ -11,16 +11,18 @@ function App() {
   useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.ok) {
-        r.json().then((user) => setUser(user));
+        r.json().then((user) => {
+          setUser(user);
+        });
       }
     });
   }, []);
-
+  console.log(user);
   if (!user) return <Authentication onLogin={setUser} />;
 
   return (
     <div className="App">
-      <Navbar onLogin={setUser} />
+      <Navbar user={user} setUser={setUser} />
     </div>
   );
 }

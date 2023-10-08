@@ -10,9 +10,14 @@ import Exercise from "./Exercise";
 import About from "./About";
 import Authentication from "./Authentication";
 
-function ColorSchemesExample() {
-  const [user, setUser] = useState(null);
-
+function ColorSchemesExample({ user, setUser }) {
+  function handleLogout() {
+    fetch("/logout", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setUser(null);
+      }
+    });
+  }
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -28,7 +33,7 @@ function ColorSchemesExample() {
             <Nav.Link as={NavLink} to={"/about"}>
               About
             </Nav.Link>
-            <Nav.Link as={NavLink} to={"/logout"}>
+            <Nav.Link as={NavLink} to={"/"} onClick={handleLogout}>
               Logout
             </Nav.Link>
           </Nav>
@@ -36,12 +41,8 @@ function ColorSchemesExample() {
       </Navbar>
       <div>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-
-          <Route exact path="/login">
-            <Authentication onLogin={setUser} />
+          <Route exact path="/logout">
+            <Authentication />
           </Route>
           <Route exact path="/home">
             <Home />
@@ -51,6 +52,9 @@ function ColorSchemesExample() {
           </Route>
           <Route path="/about">
             <About />
+          </Route>
+          <Route exact path="/">
+            <Home />
           </Route>
         </Switch>
       </div>

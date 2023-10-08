@@ -27,7 +27,7 @@ class UserSchema(ma.SQLAlchemySchema):
     username = ma.auto_field()
     first_name = ma.auto_field()
     last_name = ma.auto_field()
-    _password_hash = ma.auto_field()
+    password = ma.auto_field()
 
 
 singular_user_schema = UserSchema()
@@ -92,11 +92,15 @@ class Users(Resource):
     def post(self):
         
         new_user = singular_user_schema.load(request.json)
-        print(f"{new_user._password_hash}")
-        new_user.password_hash = new_user._password_hash
-        print(f"{new_user._password_hash}")
-        # db.session.add(new_user)
-        # db.session.commit()
+
+        new_user.password_hash = new_user.password
+
+        new_user.password = ""
+
+        print(f'{new_user}')
+
+        db.session.add(new_user)
+        db.session.commit()
 
         response = make_response(
             singular_user_schema.dump(new_user),

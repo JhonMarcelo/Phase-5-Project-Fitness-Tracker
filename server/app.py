@@ -269,16 +269,19 @@ class Login(Resource):
         else:
             return make_response({}, 401)
     
-# class CheckSession(Resource):
-#     def get(self):
-#         user_id = session['user_id']
-#         if user_id:
-#             user = User.query.filter(User.id == user_id).first()
-#             return
+class CheckSession(Resource):
+    def get(self):
+        user_id = session['user_id']
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
+            return make_response(user.to_dict(),200)
+        else:
+            return make_response({}, 401)
 
 
 api.add_resource(Login, '/login')
 api.add_resource(Users, '/users')
+api.add_resource(CheckSession, '/check_session')
 api.add_resource(getUserByID, '/users/<int:id>')
 api.add_resource(getUserExercise, '/exercise/<int:id>')
 api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')

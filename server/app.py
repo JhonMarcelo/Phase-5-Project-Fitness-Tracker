@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, Flask, make_response
+from flask import request, Flask, make_response, session
 from flask_restful import Resource, Api
 from flask_marshmallow import Marshmallow
 
@@ -90,6 +90,7 @@ class Users(Resource):
     def post(self):
         
         new_user = singular_user_schema.load(request.json)
+    
 
         db.session.add(new_user)
         db.session.commit()
@@ -246,9 +247,37 @@ class ExerciseCommentByUser(Resource):
         return response
 api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')
 
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
+class Login(Resource):
+    def post(self):
+        data = singular_exercise_schema.load(request.json)
+        print(f'{data}')
+        username = data.get('username')
+        password = data.get('password')
+
+        user = User.query.filter_by(username=username).first()
+        #and user.authenticate(password):
+        if user:
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 200)
+        else:
+            return make_response({}, 401)
+
+api.add_resource(Login, '/login')
+
+# @app.route('/login', methods=["POST"])
+# def login():
+#     data = request.get_json()
+#     user = User.query.filter(User.username == data['username']).first()
+
+#     if user:
+#         if user.authenticate(data['password']):
+#             session["user_id"] = user.is_delete
+#             return user.to_dict(),200
+#     else:
+#         return {"errors":["Username or password incorrect"]},401
+
+# def index():
+#     return '<h1>Project Server</h1>'
 
 
 if __name__ == '__main__':

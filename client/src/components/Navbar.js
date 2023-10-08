@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -8,8 +8,11 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import Home from "./Home";
 import Exercise from "./Exercise";
 import About from "./About";
+import Authentication from "./Authentication";
 
 function ColorSchemesExample() {
+  const [user, setUser] = useState(null);
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -25,13 +28,20 @@ function ColorSchemesExample() {
             <Nav.Link as={NavLink} to={"/about"}>
               About
             </Nav.Link>
+            <Nav.Link as={NavLink} to={"/login"}>
+              Login
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
       <div>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Authentication onLogin={setUser} />
+          </Route>
+
+          <Route exact path="/login">
+            <Authentication onLogin={setUser} />
           </Route>
           <Route exact path="/home">
             <Home />

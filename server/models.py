@@ -1,7 +1,8 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import declarative_base
-from config import db
+from config import db, bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 Base = declarative_base()
@@ -30,8 +31,22 @@ class User(db.Model, SerializerMixin):
     my_exercise = db.relationship("Exercise", secondary=user_exercise, backref='my_exercises')
 
 
+    #user.password_hash
+    #=> "password"
+    @hybrid_property
+    def password_hash(self):
+        # return self._password_hash
+        raise Exception("Cannot access password hashes")
 
-    
+    ## TO invoke, user.password_hash = "password"
+    @password_hash.setter
+    def password_hash(self, password):
+
+        hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
+        self._password_hash = hashed_pw
+
+    def authenticate(self, given_password):
+        return bcrypt.check_password_hash(self._password_hash, given_password)
 
 
     def __repr__(self):

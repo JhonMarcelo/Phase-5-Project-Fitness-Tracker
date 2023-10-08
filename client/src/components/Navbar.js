@@ -33,7 +33,7 @@ function ColorSchemesExample({ user, setUser }) {
             <Nav.Link as={NavLink} to={"/about"}>
               About
             </Nav.Link>
-            <Nav.Link as={NavLink} to={"/logout"} onClick={handleLogout}>
+            <Nav.Link as={NavLink} to={"/"} onClick={handleLogout}>
               Logout
             </Nav.Link>
           </Nav>
@@ -41,9 +41,7 @@ function ColorSchemesExample({ user, setUser }) {
       </Navbar>
       <div>
         <Switch>
-          <Route exact path="/logout">
-            <Authentication />
-          </Route>
+          <Route exact path="/logout"></Route>
           <Route exact path="/home">
             <Home />
           </Route>

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -8,7 +7,6 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import Home from "./Home";
 import Exercise from "./Exercise";
 import About from "./About";
-import Authentication from "./Authentication";
 
 function ColorSchemesExample({ user, setUser }) {
   function handleLogout() {
@@ -43,7 +41,7 @@ function ColorSchemesExample({ user, setUser }) {
         <Switch>
           <Route exact path="/logout"></Route>
           <Route exact path="/home">
-            <Home />
+            <Home loggedUser={user.first_name} />
           </Route>
           <Route path="/exercise">
             <Exercise />
@@ -52,7 +50,7 @@ function ColorSchemesExample({ user, setUser }) {
             <About />
           </Route>
           <Route exact path="/">
-            <Home />
+            <Home loggedUser={user.first_name} />
           </Route>
         </Switch>
       </div>

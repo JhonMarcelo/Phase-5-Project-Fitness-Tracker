@@ -17,7 +17,7 @@ function App() {
       }
     });
   }, []);
-  console.log(user);
+
   if (!user) return <Authentication onLogin={setUser} />;
 
   return (

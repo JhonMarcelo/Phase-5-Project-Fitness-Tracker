@@ -2,16 +2,36 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function Signup() {
+function Signup(onLogin) {
   const [username, setUsername] = useState("");
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  /*FETCH HERE*/
+  function handleSubmit(e) {
+    e.preventDefault();
+    fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        first_name,
+        last_name,
+        password,
+      }),
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((user) => onLogin(user));
+      } else {
+        r.json().then((err) => setErrors(err.errors));
+      }
+    });
+  }
   return (
-    /* add onSubmit */
-    <form>
+    <form onSubmit={handleSubmit}>
       <Form.Label htmlFor="inputPassword5">Username</Form.Label>
       <Form.Control
         type="text"

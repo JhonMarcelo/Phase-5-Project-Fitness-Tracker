@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
-
+import ModalForm from "./Forms/ModalForm";
 import Button from "react-bootstrap/Button";
 
 function Exercise({ id }) {
   const [exercise, setExercise] = useState([]);
+
+  function handleSubmitForm(newExercise) {
+    setExercise([...exercise, newExercise]);
+  }
+
+  function handleDeleteExercise(exercise_id) {
+    const newExerciseList = exercise.filter(
+      (exercise) => exercise.id !== exercise_id
+    );
+    setExercise(newExerciseList);
+
+    fetch(`/exercise/${id}/${exercise_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 
   useEffect(() => {
     fetch(`/exercise/${id}`)
@@ -26,6 +44,10 @@ function Exercise({ id }) {
                   <h2>weight: {exercise.weight}</h2>
                 </Card.Text>
               </Card>
+              <ModalForm onSubmitForm={handleSubmitForm} />
+              <Button onClick={() => handleDeleteExercise(exercise.id)}>
+                Delete
+              </Button>
             </>
           );
         })}

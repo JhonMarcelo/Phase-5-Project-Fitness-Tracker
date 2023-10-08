@@ -216,10 +216,11 @@ class ExerciseRateByUser(Resource):
     #     theUser = User.query.filter_by(id=id).first()
         
     #     userExercise = theUser.my_exercise
+  
 
 
     #     response = make_response(
-    #         singular_rating_schema.dump(userExercise),
+    #         singular_rating_schema.dump(userExRating),
     #         200,
     #     )
     #     return response
@@ -242,6 +243,15 @@ class ExerciseRateByUser(Resource):
 # # import ipdb; ipdb.set_trace()
 
 class ExerciseCommentByUser(Resource):
+    def get(self,id):
+        user = User.query.filter_by(id=id).first()
+        userComment = user.my_exercise[0].exercise_comment.comment
+
+        response = make_response(
+            singular_comment_schema.dump(userComment),
+            201,
+        )
+        return response
     def post(self,id):
         user = User.query.filter_by(id=id).first()
         fetched_data = singular_comment_schema.load(request.json)

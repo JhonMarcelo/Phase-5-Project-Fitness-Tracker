@@ -24,6 +24,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
+    password = db.Column(db.String)
     _password_hash = db.Column(db.String)
     ratings = db.relationship("Rating", backref="ratings")
     comments = db.relationship("Comment", backref="comments")
@@ -35,8 +36,8 @@ class User(db.Model, SerializerMixin):
     #=> "password"
     @hybrid_property
     def password_hash(self):
-        # return self._password_hash
-        raise Exception("Cannot access password hashes")
+        return self._password_hash
+        # raise Exception("Cannot access password hashes")
 
     ## TO invoke, user.password_hash = "password"
     @password_hash.setter

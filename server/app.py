@@ -92,8 +92,9 @@ class Users(Resource):
     def post(self):
         
         new_user = singular_user_schema.load(request.json)
-        print(f"{new_user.password}")
-
+        print(f"{new_user._password_hash}")
+        new_user.password_hash = new_user._password_hash
+        print(f"{new_user._password_hash}")
         # db.session.add(new_user)
         # db.session.commit()
 

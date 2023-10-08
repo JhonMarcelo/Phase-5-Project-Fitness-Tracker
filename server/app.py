@@ -92,10 +92,10 @@ class Users(Resource):
     def post(self):
         
         new_user = singular_user_schema.load(request.json)
-    
+        print(f"{new_user.password}")
 
-        db.session.add(new_user)
-        db.session.commit()
+        # db.session.add(new_user)
+        # db.session.commit()
 
         response = make_response(
             singular_user_schema.dump(new_user),
@@ -115,6 +115,21 @@ class getUserByID(Resource):
             200,
         )
         return response
+    def delete(self, id):
+        
+        user = User.query.filter_by(id=id).first()
+        db.session.delete(user)
+        db.session.commit()
+
+        response = make_response(
+            singular_user_schema.dump(user),
+            200,
+
+        )
+
+        
+
+
 
 
 api.add_resource(getUserByID, '/users/<int:id>')

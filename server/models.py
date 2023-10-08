@@ -23,12 +23,15 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
-    
+    _password_hash = db.Column(db.String)
     ratings = db.relationship("Rating", backref="ratings")
     comments = db.relationship("Comment", backref="comments")
 
     my_exercise = db.relationship("Exercise", secondary=user_exercise, backref='my_exercises')
 
+
+
+    
 
 
     def __repr__(self):

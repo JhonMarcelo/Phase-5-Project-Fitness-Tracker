@@ -44,7 +44,7 @@ function ColorSchemesExample({ user, setUser }) {
             <Home loggedUser={user.first_name} />
           </Route>
           <Route path="/exercise">
-            <Exercise id={user.id} />
+            <Exercise id={user} />
           </Route>
           <Route path="/about">
             <About />

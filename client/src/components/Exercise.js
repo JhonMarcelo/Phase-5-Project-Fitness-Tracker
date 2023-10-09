@@ -16,19 +16,19 @@ function Exercise({ id }) {
     );
     setExercise(newExerciseList);
 
-    // fetch(`/exercise/${id}/${exercise_id}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    fetch(`/exercise/${id}/${exercise_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
-  useEffect(() => {
-    fetch(`/exercise/${id}`)
-      .then((r) => r.json())
-      .then((items) => setExercise(items));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`/exercise/${id}`)
+  //     .then((r) => r.json())
+  //     .then((items) => setExercise(items));
+  // }, []);
 
   return (
     <div>

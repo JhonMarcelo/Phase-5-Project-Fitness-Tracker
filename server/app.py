@@ -266,7 +266,7 @@ class ExerciseCommentByUser(Resource):
         return response
 
 
-class Login(Resource):
+class Logging_in(Resource):
     def post(self):
         new_user = singular_user_schema.load(request.json)
         print(f'{new_user.password}')
@@ -287,7 +287,7 @@ class Logout(Resource):
         
         return make_response({},401)
     
-class CheckSession(Resource):
+class Check_Session(Resource):
     def get(self):
         user_id = session['user_id']
         if user_id:
@@ -297,10 +297,10 @@ class CheckSession(Resource):
             return make_response({}, 401)
 
 
-api.add_resource(Login, '/login')
+api.add_resource(Logging_in, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(Users, '/users')
-api.add_resource(CheckSession, '/check_session')
+api.add_resource(Check_Session, '/check_session')
 api.add_resource(getUserByID, '/users/<int:id>')
 api.add_resource(getUserExercise, '/exercise/<int:id>')
 api.add_resource(ExerciseCommentByUser, '/exercise/comment/<int:id>')

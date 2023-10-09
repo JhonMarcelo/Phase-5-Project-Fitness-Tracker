@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Login from "./Forms/Login";
+import Log_in from "./Forms/Login";
 import Signup from "./Forms/Signup";
 
 function Authentication({ onLogin }) {
@@ -9,7 +9,7 @@ function Authentication({ onLogin }) {
     <>
       {showLogin ? (
         <div>
-          <Login onLogin={onLogin} />
+          <Log_in onLogin={onLogin} />
           <p>
             need to signup?
             <button onClick={() => setShowLogin(false)}>Sign up</button>

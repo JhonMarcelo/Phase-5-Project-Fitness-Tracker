@@ -44,7 +44,7 @@ function Exercise({ id }) {
                   <h2>weight: {exercise.weight}</h2>
                 </Card.Text>
               </Card>
-              <ModalForm onSubmitForm={handleSubmitForm} />
+              <ModalForm user_id={id} onSubmitForm={handleSubmitForm} />
               <Button onClick={() => handleDeleteExercise(exercise.id)}>
                 Delete
               </Button>

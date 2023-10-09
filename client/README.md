@@ -6,6 +6,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `REQUIREMENTS`
+
+on top of the regular pipenv install and npm install
+we need to install the following:
+marshmallow-sqlalchemy
+flask-sqlalchemy
+flask-bcrypt
+
+react-bootstrap
+react-router-dom
+
 ### `npm start`
 
 Runs the app in the development mode.\

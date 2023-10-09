@@ -16,12 +16,12 @@ function Exercise({ id }) {
     );
     setExercise(newExerciseList);
 
-    fetch(`/exercise/${id}/${exercise_id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    // fetch(`/exercise/${id}/${exercise_id}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
   }
 
   useEffect(() => {

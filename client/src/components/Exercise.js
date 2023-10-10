@@ -34,7 +34,6 @@ function Exercise({ id }) {
               <Card key={exercise.id}>
                 <Card.Text>
                   <h1>{exercise.exercise_name}</h1>
-                  <h2>sets: {exercise.id}</h2>
                   <h2>sets: {exercise.sets}</h2>
                   <h2>reps: {exercise.reps}</h2>
                   <h2>weight: {exercise.weight}</h2>

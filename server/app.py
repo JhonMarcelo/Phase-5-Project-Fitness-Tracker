@@ -40,6 +40,7 @@ class ExerciseSchema(ma.SQLAlchemySchema):
         include_relationship = True
         load_instance = True
     
+    id = ma.auto_field()
     exercise_name = ma.auto_field()
     target_muscle = ma.auto_field()
     sets = ma.auto_field() 

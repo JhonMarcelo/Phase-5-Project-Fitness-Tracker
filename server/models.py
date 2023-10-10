@@ -60,7 +60,7 @@ class User(db.Model, SerializerMixin):
             + ">"
 
 
-class Exercise(db.Model, SerializerMixin):
+class Exercise(db.Model):
     __tablename__ = 'exercises'
 
     id = db.Column(db.Integer, primary_key = True)
@@ -81,7 +81,7 @@ class Exercise(db.Model, SerializerMixin):
             + f"reps = {self.reps}, "\
             + f"weight = {self.weight}, "\
             + ">"
-class Comment(db.Model, SerializerMixin):
+class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key = True)
     comment = db.Column(db.String)
@@ -91,7 +91,7 @@ class Comment(db.Model, SerializerMixin):
     
 
 
-class Rating(db.Model, SerializerMixin):
+class Rating(db.Model):
     __tablename__ = 'ratings'
 
     id = db.Column(db.Integer, primary_key = True)

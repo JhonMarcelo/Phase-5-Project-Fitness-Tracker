@@ -6,29 +6,14 @@ import Button from "react-bootstrap/Button";
 function Exercise({ id }) {
   const [exercise, setExercise] = useState([]);
 
-  function handleSubmitForm(newExercise) {
-    setExercise([...exercise, newExercise]);
-  }
+  function handleDeleteExercise() {}
+  function handleSubmitForm() {}
 
-  function handleDeleteExercise(exercise_id) {
-    const newExerciseList = exercise.filter(
-      (exercise) => exercise.id !== exercise_id
-    );
-    setExercise(newExerciseList);
-
-    fetch(`/exercise/${id}/${exercise_id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
-
-  // useEffect(() => {
-  //   fetch(`/exercise/${id}`)
-  //     .then((r) => r.json())
-  //     .then((items) => setExercise(items));
-  // }, []);
+  useEffect(() => {
+    fetch(`/exercise/${id}`)
+      .then((r) => r.json())
+      .then((items) => setExercise(items));
+  }, []);
 
   return (
     <div>
@@ -44,7 +29,7 @@ function Exercise({ id }) {
                   <h2>weight: {exercise.weight}</h2>
                 </Card.Text>
               </Card>
-              <ModalForm user_id={id} onSubmitForm={handleSubmitForm} />
+              <ModalForm onSubmitForm={handleSubmitForm} />
               <Button onClick={() => handleDeleteExercise(exercise.id)}>
                 Delete
               </Button>

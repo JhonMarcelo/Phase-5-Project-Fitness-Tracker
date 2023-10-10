@@ -24,6 +24,7 @@ export default function ModalForm({ user_id, onSubmitForm }) {
       reps: reps,
       weight: weight,
     };
+    console.log(newExercise);
     fetch(`/exercise/${user_id}`, {
       method: "POST",
       headers: {

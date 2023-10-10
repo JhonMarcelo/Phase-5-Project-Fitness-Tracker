@@ -23,7 +23,9 @@ function Exercise({ id }) {
       },
     });
   }
-  function handleSubmitForm() {}
+  function handleSubmitForm(newExercise) {
+    setExercise([...exercise, newExercise]);
+  }
 
   return (
     <div>
@@ -39,7 +41,7 @@ function Exercise({ id }) {
                   <h2>weight: {exercise.weight}</h2>
                 </Card.Text>
               </Card>
-              <ModalForm onSubmitForm={handleSubmitForm} />
+
               <Button
                 key={exercise.id}
                 onClick={() => handleDeleteExercise(exercise.id)}
@@ -50,6 +52,7 @@ function Exercise({ id }) {
           );
         })}
       </ul>
+      <ModalForm user_id={id} onSubmitForm={handleSubmitForm} />
     </div>
   );
 }
